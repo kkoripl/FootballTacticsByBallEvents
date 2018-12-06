@@ -1,22 +1,20 @@
 import json
 
-from collections import namedtuple
-
-from code.models.stats_bomb import sb_competition
-
-
-def _json_object_hook(d):
-    return namedtuple('X', d.keys())(*d.values())
+from code.models.stats_bomb.match import sb_match
+from code.models.stats_bomb.competition import sb_competition
 
 
-def json2obj(data):
-    return json.loads(data, object_hook=_json_object_hook)
+def readSBCompetitionsFromJson(json_location):
+    with open(json_location, encoding='utf-8-sig') as json_file:
+        competitions = []
+        for competition in json.load(json_file):
+            competitions.append(sb_competition.StatsBombCompetition(competition))
+    return competitions
 
 
-def jsonToSBCompetition(data):
-    comps = []
-    for comp in json2obj(data):
-        comps.append(sb_competition.StatsBombCompetition(comp.competition_id, comp.season_id, comp.country_name,
-                                                         comp.competition_name, comp.season_name, comp.match_updated,
-                                                         comp.match_available))
-    return comps
+def readSBMatchesFromJson(json_location):
+    with open(json_location, encoding='utf-8-sig') as json_file:
+        matches = []
+        for match in json.load(json_file):
+            matches.append(sb_match.StatsBombMatch(match))
+    return matches

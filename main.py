@@ -1,11 +1,22 @@
-import json
-from code.data_parsers.json_utils import jsonToSBCompetition
+import os
 
+from code.data_parsers.json_utils import readSBCompetitionsFromJson, readSBMatchesFromJson
+from code.data_parsers import json_directories
 if __name__ == "__main__":
-    with open('resources/data/stats_bomb/competitions.json', encoding='utf-8-sig') as json_file:
-        json_loaded_data = json.load(json_file)
-        json_dumped_data = json.dumps(json_loaded_data)
-        x3 = jsonToSBCompetition(json_dumped_data)
-        print(x3)
-        for x in x3:
-            print(x)
+
+    competitionsDirectory = json_directories.getSBCompetitionsDirectory()
+    matchesDirectory = json_directories.getSBMatchesDirectory()
+
+    for competitionFile in os.listdir(competitionsDirectory):
+        if competitionFile.endswith('.json'):
+            print(' ------- COMPETITION FILE ------')
+            comps = readSBCompetitionsFromJson('{}/{}'.format(competitionsDirectory, competitionFile))
+            for comp in comps:
+                print(comp)
+
+    for matchFile in os.listdir(matchesDirectory):
+        if matchFile.endswith('.json'):
+            print(' ------- MATCH FILE ------')
+            matches = readSBMatchesFromJson('{}/{}'.format(matchesDirectory, matchFile))
+            for match in matches:
+                print(match)
