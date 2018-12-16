@@ -1,22 +1,21 @@
-import os
+from code.data_parsers.stats_bomb.json_utils import SBJsonUtils
+from code.models.stats_bomb.data_preparation_models import pitch_events_field_names as pefn
+from code.models.stats_bomb.services.sequence_services.sequence_in_attack_service import SequenceInAttack
 
-from code.data_parsers.json_utils import readSBCompetitionsFromJson, readSBMatchesFromJson
-from code.data_parsers import json_directories
 if __name__ == "__main__":
+    sbJsonUtils = SBJsonUtils()
+    sequenceInAttack = SequenceInAttack()
+    events = sbJsonUtils.readSBDataInTypeFromJsons('event')
 
-    competitionsDirectory = json_directories.getSBCompetitionsDirectory()
-    matchesDirectory = json_directories.getSBMatchesDirectory()
+    for event in events:
+        if sequenceInAttack.isAttackSequenceStartAt(event):
+            print('[POCZ]{} - {} -> {}'.format(event[pefn.TIMESTAMP], event[pefn.TEAM][pefn.NAME],
+                                               event[pefn.TYPE][pefn.NAME]))
 
-    for competitionFile in os.listdir(competitionsDirectory):
-        if competitionFile.endswith('.json'):
-            print(' ------- COMPETITION FILE ------')
-            comps = readSBCompetitionsFromJson('{}/{}'.format(competitionsDirectory, competitionFile))
-            for comp in comps:
-                print(comp)
+        elif sequenceInAttack.isAttackSequenceEndAt(event):
+            print('[KON]{} - {} -> {}'.format(event[pefn.TIMESTAMP], event[pefn.TEAM][pefn.NAME],
+                                              event[pefn.TYPE][pefn.NAME]))
+        else:
+            print('{} - {} -> {}'.format(event[pefn.TIMESTAMP], event[pefn.TEAM][pefn.NAME],
+                                         event[pefn.TYPE][pefn.NAME]))
 
-    for matchFile in os.listdir(matchesDirectory):
-        if matchFile.endswith('.json'):
-            print(' ------- MATCH FILE ------')
-            matches = readSBMatchesFromJson('{}/{}'.format(matchesDirectory, matchFile))
-            for match in matches:
-                print(match)

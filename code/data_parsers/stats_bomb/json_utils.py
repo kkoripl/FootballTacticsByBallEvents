@@ -1,6 +1,7 @@
 import json
 import os
-from code.data_parsers import json_directories
+
+from code.data_parsers.stats_bomb import json_directories
 
 data_directories = {
     'competition': json_directories.getSBCompetitionsDirectory(),
@@ -18,6 +19,7 @@ class SBJsonUtils:
                 file_location = '{}/{}'.format(data_directory, filename)
                 with open(file_location, encoding='utf-8-sig') as json_file:
                     data.extend(self.loadDataFromJson(filename, json_file, wantedDataType))
+            break
         return data
 
     def isJson(self, file):
@@ -28,13 +30,16 @@ class SBJsonUtils:
         for element in json.load(json_file):
             if wantedDataType in ['lineup', 'event']:
                 self.addMatchId(element, filename)
-            else:
+            if wantedDataType != 'lineup':
                 element = self.changeIdNameToId(element, wantedDataType)
             new_data.append(element)
         return new_data
 
     def changeIdNameToId(self, element, wantedDataType):
-        element['_id'] = element.pop('{}{}'.format(wantedDataType, '_id'))
+        if wantedDataType == 'event':
+            element['_id'] = element.pop('id')
+        else:
+            element['_id'] = element.pop('{}{}'.format(wantedDataType, '_id'))
         return element
 
     def addMatchId(self, element, filename):

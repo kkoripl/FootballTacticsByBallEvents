@@ -1,44 +1,44 @@
 class PitchEvents:
-    def __init__(self):
-        self.pitchEvents= {
-            'withPitchPosition': {
-                2: 'Ball recovery',
-                3: 'Dispossessed',
-                4: 'Duel',
-                6: 'Block',
-                8: 'Offside',
-                9: 'Clearance',
-                10: 'Interception',
-                14: 'Dribble',
-                16: 'Shot',
-                17: 'Pressure',
-                20: 'Own goal against',
-                21: 'Faul won',
-                22: 'Faul committed',
-                23: 'Goal keeper action',
-                25: 'Own goal for',
-                28: 'Shield - defender shields ball going out of bounds',
-                30: 'Pass on the ground',
-                31: 'Low pass - under shoulder level',
-                32: 'High pass - over shoulder level',
-                33: '50/50 - recover a loose ball',
-                37: 'Error - on-the-ball mistake leading for shot on goal',
-                38: 'Miscontrol',
-                39: 'Dribble past',
-                41: 'Referee ball-drop',
-                42: 'Ball receipt'
-            },
-            'withoutPitchPosition': {
-                5: 'Camera on',
-                18: 'Half start',
-                19: 'Substitution',
-                24: 'Bad behaviour',
-                26: 'Substitution - player on',
-                27: 'Substitution - player off',
-                29: 'Camera off - video broadcast leaves gameplay',
-                34: 'Half end',
-                35: 'Starting XI',
-                36: 'Tactical shift',
-                40: 'Injury stoppage'
-            }
-        }
+    BALL_RECOVERY = 2
+    DISPOSSESSED = 3
+    DUEL = 4
+    CAMERA_ON = 5
+    BLOCK = 6
+    OFFSIDE = 8
+    CLEARANCE = 9
+    INTERCEPTION = 10
+    DRIBBLE = 14
+    SHOT = 16
+    PRESSURE = 17
+    HALF_START = 18
+    SUBSTITUTION = 19
+    OWN_GOAL_AGAINST = 20
+    FAUL_WON = 21
+    FAUL_COMMITTED = 22
+    GOAL_KEEPER_ACTION = 23
+    BAD_BEHAVIOUR = 24
+    OWN_GOAL_FOR = 25
+    SUBSTITUTION_ON = 26
+    SUBSTITUTION_OFF = 27
+    SHIELD = 28
+    CAMERA_OFF = 29
+    PASS = 30
+    LOW_PASS = 31
+    HIGH_PASS = 32
+    FIFTY_FIFTY = 33
+    HALF_END = 34
+    STARTING_XI = 35
+    TACTICAL_SHIFT = 36
+    ERROR = 37
+    MISCONTROL = 38
+    DRIBBLE_PAST = 39
+    INJURY_STOPPAGE = 40
+    REFEREE_BALL_DROP = 41
+    BALL_RECEIPT = 42
+    CORNER = 61
+    FREE_KICK = 62
+    GOAL_KICK = 63
+    KICK_OFF = 65
+    RECOVERY = 66
+    THROW_IN = 67
+    PENALTY = 88

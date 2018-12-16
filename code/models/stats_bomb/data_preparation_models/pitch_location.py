@@ -4,6 +4,7 @@ class PitchLocation:
     X_SIZE = 120
     Y_SIZE = 80
     MIDDLE_CORDINATES = [X_SIZE/2, Y_SIZE/2]
+    CORNERS = [[0, 0], [X_SIZE, 0], [0, Y_SIZE], [X_SIZE, Y_SIZE]]
 
     def moveLocationFromLeftToRightPitchSide(self, location):
         return self.moveLocationFromLeftToRight(location)
@@ -13,7 +14,8 @@ class PitchLocation:
             location = self.changeCordinates(location)
         return location
 
-    def isOnTheLeftPitchSide(self, location):
+    @staticmethod
+    def isOnTheLeftPitchSide(location):
         return location[PitchLocation.X] < PitchLocation.MIDDLE_CORDINATES[PitchLocation.X]
 
     def changeCordinates(self, location):
