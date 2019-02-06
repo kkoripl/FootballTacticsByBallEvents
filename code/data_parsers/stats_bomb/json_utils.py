@@ -19,7 +19,6 @@ class SBJsonUtils:
                 file_location = '{}/{}'.format(data_directory, filename)
                 with open(file_location, encoding='utf-8-sig') as json_file:
                     data.extend(self.loadDataFromJson(filename, json_file, wantedDataType))
-            break
         return data
 
     def isJson(self, file):

@@ -1,6 +1,6 @@
 from code.models.stats_bomb.data_preparation_models import pitch_events_field_names as pefn
 from code.models.stats_bomb.data_preparation_models.pitch_events import PitchEvents as pe
-from code.models.stats_bomb.services.events_services.event_service import Event
+from code.models.stats_bomb.services.events_services.particular_events.event_service import Event
 
 
 class Shot(Event):

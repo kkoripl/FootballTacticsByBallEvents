@@ -1,6 +1,8 @@
 class PitchLocation:
     X = 0
     Y = 1
+    Z = 3
+    A = 4
     X_SIZE = 120
     Y_SIZE = 80
     MIDDLE_CORDINATES = [X_SIZE/2, Y_SIZE/2]
