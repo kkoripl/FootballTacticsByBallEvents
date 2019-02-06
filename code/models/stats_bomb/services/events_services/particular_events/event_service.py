@@ -1,5 +1,3 @@
-from code.models.stats_bomb.services.statistics_services.models.point import Point
-
 from code.models.stats_bomb.data_preparation_models import pitch_events_field_names as pefn
 
 
