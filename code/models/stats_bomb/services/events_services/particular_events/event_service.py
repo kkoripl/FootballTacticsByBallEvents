@@ -1,4 +1,5 @@
 from code.models.stats_bomb.data_preparation_models import pitch_events_field_names as pefn
+from code.models.stats_bomb.data_preparation_models.pitch_events import PitchEvents as pe
 
 
 class Event:
@@ -19,16 +20,16 @@ class Event:
         return outcomeId
 
     @staticmethod
-    def getX(event):
+    def __getX(event):
         return event["location"][0]
 
     @staticmethod
-    def getY(event):
+    def __getY(event):
         return event["location"][1]
 
     @staticmethod
     def getLocation(event):
-        return Point(Event.getX(event), Event.getY(event))
+        return [Event.__getX(event), Event.__getY(event)]
 
     @staticmethod
     def isPlayerEvent(event):
@@ -41,3 +42,23 @@ class Event:
     @staticmethod
     def isTeamEvent(event, teamId):
         return event[pefn.TEAM][pefn.ID] == teamId
+
+    @staticmethod
+    def getPossesionTeam(event):
+        return event[pefn.POSSESSION_TEAM]
+
+    @staticmethod
+    def getTeam(event):
+        return event[pefn.TEAM]
+
+    @staticmethod
+    def isAttackingEvent(event):
+        return Event.getPossesionTeam(event) == Event.getTeam(event) \
+               and Event.getEventTypeId(event) in pe.OFFENSIVE_EVENTS \
+               and event["play_pattern"][pefn.ID] not in [2,3]
+
+    @staticmethod
+    def isDefendingEvent(event):
+        return Event.getPossesionTeam(event) != Event.getTeam(event) \
+               and Event.getEventTypeId(event) in pe.DEFENSIVE_EVENTS \
+               and event["play_pattern"][pefn.ID] not in [2, 3]
