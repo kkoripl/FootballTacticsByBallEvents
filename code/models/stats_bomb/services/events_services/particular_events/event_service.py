@@ -5,7 +5,7 @@ from code.models.stats_bomb.data_preparation_models.pitch_events import PitchEve
 class Event:
     @staticmethod
     def getEventTypeId(event):
-        return event[pefn.TYPE][pefn.ID]
+        return event.type.id
 
     @staticmethod
     def isTypeFieldIn(event):
@@ -34,6 +34,7 @@ class Event:
     @staticmethod
     def isPlayerEvent(event):
         return pefn.PLAYER in event.keys()
+        # return hasattr(event, pefn.PLAYER) # in event.keys()
 
     @staticmethod
     def getPlayerId(event):
@@ -42,23 +43,24 @@ class Event:
     @staticmethod
     def isTeamEvent(event, teamId):
         return event[pefn.TEAM][pefn.ID] == teamId
+        # return event.team.id == teamId
 
     @staticmethod
     def getPossesionTeam(event):
-        return event[pefn.POSSESSION_TEAM]
+        return event.possession_team
 
     @staticmethod
     def getTeam(event):
-        return event[pefn.TEAM]
+        return event.team
 
     @staticmethod
     def isAttackingEvent(event):
         return Event.getPossesionTeam(event) == Event.getTeam(event) \
                and Event.getEventTypeId(event) in pe.OFFENSIVE_EVENTS \
-               and event["play_pattern"][pefn.ID] not in [2,3]
+               and event.play_pattern.id not in [2, 3]
 
     @staticmethod
     def isDefendingEvent(event):
         return Event.getPossesionTeam(event) != Event.getTeam(event) \
                and Event.getEventTypeId(event) in pe.DEFENSIVE_EVENTS \
-               and event["play_pattern"][pefn.ID] not in [2, 3]
+               and event.play_pattern.id  not in [2, 3]
