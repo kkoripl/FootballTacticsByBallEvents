@@ -46,10 +46,10 @@ class Pass(Event):
     @staticmethod
     def __isGoalKick( event):
         return Pass.__isPassAndGotTypeField(event) \
-               and Pass.__isPassFromGoalKick(Pass.__getPassField(event))
+               and Pass.isPassFromGoalKick(Pass.__getPassField(event))
 
     @staticmethod
-    def __isPassFromGoalKick(field_pass):
+    def isPassFromGoalKick(field_pass):
         return Pass.getEventTypeId(field_pass) == pe.GOAL_KICK
 
     @staticmethod

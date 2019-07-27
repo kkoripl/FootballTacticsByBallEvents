@@ -6,8 +6,8 @@ class PlayersEventsService:
 
     def divideMatchEventsBetweenPlayersAndTeams(self, events, match):
         self.__addEventsToPlayersAndTeams(events, match.home, match.away)
-        self.__addAvgPositionsAndConvexHullsToPlayers(match.home)
-        self.__addAvgPositionsAndConvexHullsToPlayers(match.away)
+        # self.__addAvgPositionsAndConvexHullsToPlayers(match.home)
+        # self.__addAvgPositionsAndConvexHullsToPlayers(match.away)
         return match
 
     def __addEventsToPlayersAndTeams(self, events, homeLineup, awayLineup):

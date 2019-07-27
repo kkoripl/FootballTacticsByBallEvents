@@ -14,15 +14,15 @@ def jsonEvents2Obj(data):
 def jsonEvent2Obj(data):
     data["id"] = data["_id"]
     data["pass_obj"] = data.get("pass")
-    del data["_id"]
+    data.pop("_id", None)
     data.pop("pass", None)
     data = json.dumps(data) # take a dictionary as input and returns a string as output.
     return json.loads(data, object_hook=Event.from_dict) # take a string as input and returns a dictionary as output.
 
 def jsonLineup2Obj(lineup):
-    del lineup["_id"]
+    lineup.pop("_id", None)
     players = getPlayersFromLineup(lineup)
-    del lineup["lineup"]
+    lineup.pop("lineup", None)
     data = json.dumps(lineup)
     lineup = json.loads(data, object_hook=Lineup.from_dict)
     lineup.setLineup(players)
