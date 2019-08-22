@@ -63,4 +63,7 @@ class Event:
     def isDefendingEvent(event):
         return Event.getPossesionTeam(event) != Event.getTeam(event) \
                and Event.getEventTypeId(event) in pe.DEFENSIVE_EVENTS \
-               and event.play_pattern.id  not in [2, 3]
+               and event.play_pattern.id not in [2, 3]
+    @staticmethod
+    def isBallReceipt(event):
+        return Event.getEventTypeId(event) == pe.BALL_RECEIPT

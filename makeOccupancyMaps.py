@@ -4,6 +4,7 @@ import os
 import matplotlib
 import pandas as pd
 
+from codes.azure_utils.dataFolderConnector import connectDataFolder
 from codes.data_parsers.stats_bomb.DataParser import jsonEvents2Obj, jsonLineup2Obj
 from codes.data_parsers.stats_bomb.json_directories import JsonDirectories
 from codes.data_parsers.stats_bomb.json_utils import SBJsonUtils
@@ -15,20 +16,17 @@ from codes.plots.pitch import drawPitch
 matplotlib.use('Agg')  # Must be before importing matplotlib.pyplot or pylab!
 import matplotlib.pyplot as pyplot
 
-
-def makeOccupancyMaps():
-    json_directories = JsonDirectories()
+def doOccupancyMaps():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data-folder', type=str, dest='data_folder', help='data folder mounting point')
-    args = parser.parse_args()
-    if args.data_folder is not None:
-        print(args.data_folder)
-        head, tail = os.path.split(args.data_folder)
-        JsonDirectories.DATA_DIRECTORY = head
-        JsonDirectories.OUTPUTS_DIRECTORY = ''
+    connectDataFolder(parser)
+    #makeOccupancyMaps(-args)
+
+def makeOccupancyMaps(play_segment_length, x_bins, y_bins):
+    print('--- CREATING OCCUPANCY MAPS STARTED')
+    json_directories = JsonDirectories()
 
     jsonUtils = SBJsonUtils()
-    possStrings = PossessionStringsService()
+    possStrings = PossessionStringsService(play_segment_window=play_segment_length, x_bins=x_bins, y_bins=y_bins)
     lastCompetition = ""
     lastSeason = ""
     path_to_folder = ""
@@ -57,22 +55,23 @@ def makeOccupancyMaps():
         occupancy_maps_df = occupancy_maps_df.append(
             pd.DataFrame([createAwayOccupancyMapDict(m, away_entropy_map)]))
 
-        home_entropy_map = home_entropy_map.reshape(PitchLocation.BINS_Y, PitchLocation.BINS_X)
-        away_entropy_map = away_entropy_map.reshape(PitchLocation.BINS_Y, PitchLocation.BINS_X)
-
-        match_data = {'match_id': m['_id'],
-                      'home_team': m['home_team']['home_team_name'].replace(" ", "_"),
-                      'away_team': m['away_team']['away_team_name'].replace(" ", "_"),
-                      'home_score': m['home_score'],
-                      'away_score': m['away_score']}
-        plot_combined_occupancy_map(home_entropy_map, away_entropy_map, match_data, path_to_folder)
-        match_data['home_team'] = "[%s]" % (match_data['home_team'])
-        match_data['away_team'] = match_data['away_team'].replace("[", "").replace("]", "")
-        plot_team_occupancy_map(home_entropy_map, match_data, path_to_folder)
-        match_data['home_team'] = match_data['home_team'].replace("[", "").replace("]", "")
-        match_data['away_team'] = "[%s]" % (match_data['away_team'])
-        plot_team_occupancy_map(away_entropy_map, match_data, path_to_folder)
-    occupancy_maps_df.to_csv(os.path.join(json_directories.create_occupancy_maps_csv_path(), 'occupancy_maps.csv'))
+        # home_entropy_map = home_entropy_map.reshape(PitchLocation.BINS_Y, PitchLocation.BINS_X)
+        # away_entropy_map = away_entropy_map.reshape(PitchLocation.BINS_Y, PitchLocation.BINS_X)
+        #
+        # match_data = {'match_id': m['_id'],
+        #               'home_team': m['home_team']['home_team_name'].replace(" ", "_"),
+        #               'away_team': m['away_team']['away_team_name'].replace(" ", "_"),
+        #               'home_score': m['home_score'],
+        #               'away_score': m['away_score']}
+        # plot_combined_occupancy_map(home_entropy_map, away_entropy_map, match_data, path_to_folder)
+        # match_data['home_team'] = "[%s]" % (match_data['home_team'])
+        # match_data['away_team'] = match_data['away_team'].replace("[", "").replace("]", "")
+        # plot_team_occupancy_map(home_entropy_map, match_data, path_to_folder)
+        # match_data['home_team'] = match_data['home_team'].replace("[", "").replace("]", "")
+        # match_data['away_team'] = "[%s]" % (match_data['away_team'])
+        # plot_team_occupancy_map(away_entropy_map, match_data, path_to_folder)
+    occupancy_maps_df.to_pickle(json_directories.create_occupancy_maps_pkl_path(play_segment_length))
+    print('--- CREATING OCCUPANCY MAPS ENDED')
 
 
 def createAwayOccupancyMapDict(match, entropy_map):
@@ -129,6 +128,3 @@ def plot_team_occupancy_map(team_entropy_map, match_data, path_to_folder):
     pitchFig.colorbar(img)
     pyplot.savefig(create_path_to_save_picture(path_to_folder, match_data))
     pyplot.close(pitchFig)
-
-
-makeOccupancyMaps()

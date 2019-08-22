@@ -20,8 +20,11 @@ class JsonDirectories:
     def getSBDataDirectory(self):
         return os.path.join(JsonDirectories.DATA_DIRECTORY, 'resources', 'data', 'stats_bomb')
     
-    def create_occupancy_maps_csv_path(self):
-        return self.create_outputs_dir_path()
+    def create_occupancy_maps_pkl_path(self, play_segment_length):
+        return os.path.join(self.create_outputs_dir_path(), 'occupancy_maps_' + str(play_segment_length)+'.pkl')
+
+    def create_first_investigation_scores_csv_path(self):
+        return os.path.join(self.create_outputs_dir_path(), 'first_int_scores.csv')
 
     def create_competition_subdir_path(self, competition):
         return os.path.join(self.create_outputs_dir_path(), competition)

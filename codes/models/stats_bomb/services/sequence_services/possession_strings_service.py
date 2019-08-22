@@ -5,6 +5,7 @@ from scipy.stats import entropy
 
 from codes.models.stats_bomb.data_preparation_models.pitch_location import PitchLocation
 from codes.models.stats_bomb.services.events_services.particular_events.ball_pass_service import Pass
+from codes.models.stats_bomb.services.events_services.particular_events.event_service import Event
 from codes.models.stats_bomb.services.events_services.particular_events.half_service import Half
 from codes.models.stats_bomb.services.events_services.particular_events.interception_service import Interception
 from codes.models.stats_bomb.services.events_services.particular_events.shot_service import Shot
@@ -12,12 +13,14 @@ from codes.models.stats_bomb.services.events_services.particular_events.shot_ser
 
 class PossessionStringsService:
 
-    def __init__(self):
+    def __init__(self, play_segment_window, x_bins, y_bins):
         self.__lastEventTypeId = None
         self.lastTeamWithBall = None
         self.__last = -1
-        self.__play_segment_window_size = 4
+        self.__play_segment_window_size = play_segment_window
         self.__pitch_location_service = PitchLocation()
+        self.__x_bins = x_bins
+        self.__y_bins = y_bins
 
     def createEventsEntropyMaps(self, match):
         home_ps = self.makePlaySegments(match.home.possesion_strings)
@@ -26,7 +29,7 @@ class PossessionStringsService:
 
     def createEventsEntropyMap(self, play_segments):
         bins_map = []
-        vertical_bins_ranges, horizontal_bins_ranges = self.__pitch_location_service.createPitchBins(PitchLocation.BINS_X, PitchLocation.BINS_Y)
+        vertical_bins_ranges, horizontal_bins_ranges = self.__pitch_location_service.createPitchBins(self.__x_bins, self.__y_bins)
         for i in range(0, len(vertical_bins_ranges)*len(horizontal_bins_ranges)):
             bins_map.append([])
         # bins_map = np.zeros(shape=(len(vertical_bins_ranges)*len(horizontal_bins_ranges),len(vertical_bins_ranges)*len(horizontal_bins_ranges)))
@@ -55,7 +58,7 @@ class PossessionStringsService:
         home_strings = []
         away_strings = []
         for event in match.events:
-            if event.gotPlayer():
+            if event.gotPlayer() and not Event.isBallReceipt(event):
                 if self.isPossessionStringStartingAt(event):
                     if event.team.name == match.home.team_name:
                         home_strings.append([event])
@@ -74,11 +77,6 @@ class PossessionStringsService:
         return home_strings, away_strings
 
     def isPossessionStringStartingAt(self, event):
-        dsp = self.isSetPiece(event)
-        dsko = Pass.isKickOff(event)
-        dpfgk = Pass.isPassFromGoalKick(event)
-        ditip = (not self.isTeamStillInPossesionAt(event))
-        dicl = Interception.isClearance(event)
         decision = self.isSetPiece(event) or Pass.isKickOff(event) \
                or Pass.isPassFromGoalKick(event) or (not self.isTeamStillInPossesionAt(event)) \
                 or Interception.isClearance(event)

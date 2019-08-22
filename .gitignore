@@ -1,0 +1,7 @@
+resources/data/stats_bomb/*
+.idea/*
+outputs/*
+
+!resources/data/stats_bomb/.keep
+!.idea/.keep
+!outputs/.keep
