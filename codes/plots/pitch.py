@@ -4,7 +4,7 @@ from matplotlib.patches import Arc
 from codes.models.stats_bomb.data_preparation_models.pitch_location import PitchLocation as pl
 
 
-def drawPitch(ax):
+def draw_pitch(ax):
 
     #Pitch Outline & Centre Line
     ax.plot([0, 0], [0, pl.Y_SIZE],  color="black") #left goalline

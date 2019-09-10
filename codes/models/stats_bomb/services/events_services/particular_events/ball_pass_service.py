@@ -14,54 +14,54 @@ class Pass(Event):
     UNKNOWN = 77
 
     @staticmethod
-    def getEventOutcomeId(event, type=pefn.PASS):
-        return super().getEventOutcomeId(event, type)
+    def get_event_outcome_id(event, type=pefn.PASS):
+        return super().get_event_outcome_id(event, type)
 
     @staticmethod
-    def __getPassField(event):
+    def __get_pass_field(event):
         return event.pass_obj
 
     @staticmethod
-    def isPassCompleted(event):
-        return pefn.OUTCOME not in Pass.__getPassField(event).keys()
+    def is_pass_completed(event):
+        return pefn.OUTCOME not in Pass.__get_pass_field(event).keys()
 
     @staticmethod
-    def isPass(event):
-        return Pass.getEventTypeId(event) in [pe.PASS, pe.HIGH_PASS, pe.LOW_PASS]
+    def is_pass(event):
+        return Pass.get_event_type_id(event) in [pe.PASS, pe.HIGH_PASS, pe.LOW_PASS]
 
     @staticmethod
-    def __isPassAndGotTypeField(event):
-        return Pass.isPass(event) and Pass.isTypeFieldIn(Pass.__getPassField(event))
+    def __is_pass_and_got_type_field(event):
+        return Pass.is_pass(event) and Pass.is_type_field_in(Pass.__get_pass_field(event))
 
     @staticmethod
-    def isPassRecoveredWell(event):
-        return Pass.__isPassAndGotTypeField(event) \
-               and Pass.getEventTypeId(Pass.__getPassField(event)) == pe.RECOVERY \
-               and Pass.isPassCompleted(event)
+    def is_pass_recovered_well(event):
+        return Pass.__is_pass_and_got_type_field(event) \
+               and Pass.get_event_type_id(Pass.__get_pass_field(event)) == pe.RECOVERY \
+               and Pass.is_pass_completed(event)
 
     @staticmethod
-    def isBallFromGoalkeeper(event):
-        return Pass.__isGoalKick(event) or Pass.__isPassFromGoalkeeper(event)
+    def is_ball_from_gk(event):
+        return Pass.__is_goal_kick(event) or Pass.__is_pass_from_gk(event)
 
     @staticmethod
-    def __isGoalKick( event):
-        return Pass.__isPassAndGotTypeField(event) \
-               and Pass.isPassFromGoalKick(Pass.__getPassField(event))
+    def __is_goal_kick(event):
+        return Pass.__is_pass_and_got_type_field(event) \
+               and Pass.is_pass_from_goal_kick(Pass.__get_pass_field(event))
 
     @staticmethod
-    def isPassFromGoalKick(field_pass):
-        return Pass.getEventTypeId(field_pass) == pe.GOAL_KICK
+    def is_pass_from_goal_kick(field_pass):
+        return Pass.get_event_type_id(field_pass) == pe.GOAL_KICK
 
     @staticmethod
-    def __isPassFromGoalkeeper(event):
-        return Pass.isPass(event) and event.position.id == pp.GOALKEEPER
+    def __is_pass_from_gk(event):
+        return Pass.is_pass(event) and event.position.id == pp.GOALKEEPER
 
     @staticmethod
-    def isKickOff(event):
-        return Pass.__isPassAndGotTypeField(event) \
-               and Pass.getEventTypeId(Pass.__getPassField(event)) == pe.KICK_OFF
+    def is_kick_off(event):
+        return Pass.__is_pass_and_got_type_field(event) \
+               and Pass.get_event_type_id(Pass.__get_pass_field(event)) == pe.KICK_OFF
 
     @staticmethod
-    def isPassFromSetPiece(event):
-        return Pass.__isPassAndGotTypeField(event) and \
-               Pass.getEventTypeId(Pass.__getPassField(event)) in [pe.CORNER, pe.FREE_KICK, pe.PENALTY, pe.THROW_IN]
+    def is_pass_from_set_piece(event):
+        return Pass.__is_pass_and_got_type_field(event) and \
+               Pass.get_event_type_id(Pass.__get_pass_field(event)) in [pe.CORNER, pe.FREE_KICK, pe.PENALTY, pe.THROW_IN]

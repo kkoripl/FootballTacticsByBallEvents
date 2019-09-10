@@ -22,11 +22,11 @@ class Player:
     def __repr__(self):
         return str(self)
 
-    def addAttackingEvent(self, event):
+    def add_attacking_event(self, event):
         self.events['attack'].append(event)
 
-    def addDefensiveEvent(self, event):
+    def add_defensive_event(self, event):
         self.events['defence'].append(event)
 
-    def havePlayedInGame(self):
+    def has_played_in_game(self):
         return len(self.events['attack']) + len(self.events['defence']) != 0

@@ -1,4 +1,4 @@
-from makeOccupancyMaps import makeOccupancyMaps
+from make_occupancy_maps import makeOccupancyMaps
 from predict_team_by_occupancy_maps import predict_team_by_occupancy_maps
 
 

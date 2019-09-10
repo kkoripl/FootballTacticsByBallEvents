@@ -12,7 +12,7 @@ class PitchLocation:
     BINS_X = 10 #10
     BINS_Y = 8 #16
 
-    def createPitchBins(self, bins_x, bins_y):
+    def create_pitch_bins(self, bins_x, bins_y):
         vertical_bins_ranges = []
         horizontal_bins_ranges = []
 
@@ -30,8 +30,8 @@ class PitchLocation:
 
     # bins like: [ 0 1 2 3 ]
     #            [ 4 5 6 7 ]
-    def findPitchBin(self, location, vertical_bins_ranges, horizontal_bins_ranges):
-        self.standarizeToFarCordinates(location)
+    def find_pitch_bin(self, location, vertical_bins_ranges, horizontal_bins_ranges):
+        self.standarize_to_far_cordinates(location)
         vertical_bin = None
         horizontal_bin = None
 
@@ -45,7 +45,7 @@ class PitchLocation:
 
         return (horizontal_bin + (len(horizontal_bins_ranges)-1)*vertical_bin) + vertical_bin
 
-    def standarizeToFarCordinates(self, location):
+    def standarize_to_far_cordinates(self, location):
         if location[0] > PitchLocation.X_SIZE:
             location[0] = PitchLocation.X_SIZE
 

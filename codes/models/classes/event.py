@@ -1,10 +1,11 @@
 from codes.models.stats_bomb.data_preparation_models.pitch_events import PitchEvents as pe
 
+
 class Event:
     @classmethod
-    def from_dict(cls, dict):
+    def from_dict(cls, d):
         obj = cls()
-        obj.__dict__.update(dict)
+        obj.__dict__.update(d)
         return obj
 
     def __str__(self):
@@ -13,22 +14,21 @@ class Event:
     def __repr__(self):
         return str(self)
 
-    def gotPlayer(self):
+    def got_player(self):
         return self.player is not None
 
-    def isAttackingEvent(self):
-        return self.possession_team.id == self.team.id  \
+    def is_attacking_event(self):
+        return self.possession_team.id == self.team.id \
                and self.type.id in pe.OFFENSIVE_EVENTS \
                and self.play_pattern.id not in [2, 3]
 
-    def isDefendingEvent(self):
+    def is_defending_event(self):
         return self.possession_team.id != self.team.id \
                and self.type.id in pe.DEFENSIVE_EVENTS \
                and self.play_pattern.id not in [2, 3]
 
-    def getPossessionTeamName(self):
+    def get_possession_team_name(self):
         return self.possession_team.name
-
 
     # The unique identifier for each event UUID
     id = None

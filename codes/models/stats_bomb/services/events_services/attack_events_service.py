@@ -2,10 +2,10 @@ from codes.models.stats_bomb.services.events_services.particular_events.event_se
 
 
 class AttackEventsService:
-    def getAttackEvents(self, events):
+    def get_attack_events(self, events):
         attackEvents = []
         for event in events:
-            if Event.isAttackingEvent(event):
+            if Event.is_attacking_event(event):
                 attackEvents.append(event)
         return attackEvents
 

@@ -6,13 +6,13 @@ class Lineup:
     events = None
     possesion_strings = None
 
-    def setLineup(self, lineup):
+    def set_lineup(self, lineup):
         self.lineup = lineup
 
     @classmethod
-    def from_dict(cls, dict):
+    def from_dict(cls, d):
         obj = cls()
-        obj.__dict__.update(dict)
+        obj.__dict__.update(d)
         obj.events = []
         obj.possesion_strings = []
         return obj
@@ -23,13 +23,13 @@ class Lineup:
     def __repr__(self):
         return str(self)
 
-    def getPlayer(self, playerId):
-        return next((x for x in self.lineup if x.player_id == playerId), None)
+    def get_player(self, player_id):
+        return next((x for x in self.lineup if x.player_id == player_id), None)
 
-    def gotPlayer(self, playerId):
-        return next((True for x in self.lineup if x.player_id == playerId), False)
+    def got_player(self, player_id):
+        return next((True for x in self.lineup if x.player_id == player_id), False)
 
-    def addEvent(self, event):
+    def add_event(self, event):
         self.events.append(event)
 
 

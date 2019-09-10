@@ -5,13 +5,13 @@ import matplotlib
 import pandas as pd
 
 from codes.azure_utils.dataFolderConnector import connectDataFolder
-from codes.data_parsers.stats_bomb.DataParser import jsonEvents2Obj, jsonLineup2Obj
+from codes.data_parsers.stats_bomb.data_parser import json_events_2_obj, json_lineup_2_obj
 from codes.data_parsers.stats_bomb.json_directories import JsonDirectories
 from codes.data_parsers.stats_bomb.json_utils import SBJsonUtils
 from codes.models.classes.match import Match
 from codes.models.stats_bomb.data_preparation_models.pitch_location import PitchLocation
 from codes.models.stats_bomb.services.sequence_services.possession_strings_service import PossessionStringsService
-from codes.plots.pitch import drawPitch
+from codes.plots.pitch import draw_pitch
 
 matplotlib.use('Agg')  # Must be before importing matplotlib.pyplot or pylab!
 import matplotlib.pyplot as pyplot
@@ -43,12 +43,12 @@ def makeOccupancyMaps(play_segment_length, x_bins, y_bins):
             json_directories.create_competition_season_subdir(changedCompetition, changedSeason)
             path_to_folder = json_directories.create_competition_season_subdir_path(changedCompetition, changedSeason)
         match = Match(m['_id'],
-                      jsonLineup2Obj(jsonUtils.readMatchLineupDataFromJson(m['_id'], m['home_team']['home_team_id'])),
-                      jsonLineup2Obj(jsonUtils.readMatchLineupDataFromJson(m['_id'], m['away_team']['away_team_id'])),
-                      jsonEvents2Obj(jsonUtils.readMatchEventsDataFromJson(m['_id'])))
+                      json_lineup_2_obj(jsonUtils.readMatchLineupDataFromJson(m['_id'], m['home_team']['home_team_id'])),
+                      json_lineup_2_obj(jsonUtils.readMatchLineupDataFromJson(m['_id'], m['away_team']['away_team_id'])),
+                      json_events_2_obj(jsonUtils.readMatchEventsDataFromJson(m['_id'])))
 
-        match.home.possesion_strings, match.away.possesion_strings = possStrings.getPossessionStrings(match)
-        home_entropy_map, away_entropy_map = possStrings.createEventsEntropyMaps(match)
+        match.home.possesion_strings, match.away.possesion_strings = possStrings.get_possession_strings(match)
+        home_entropy_map, away_entropy_map = possStrings.create_events_entropy_maps(match)
 
         occupancy_maps_df = occupancy_maps_df.append(
             pd.DataFrame([createHomeOccupancyMapDict(m, home_entropy_map)]))
@@ -102,10 +102,10 @@ def plot_combined_occupancy_map(home_entropy_map, away_entropy_map, match_data, 
         match_data['home_team'], match_data['away_team'], match_data['home_score'], match_data['away_score']))
     ax1 = pitchFig.add_subplot(121)
     ax2 = pitchFig.add_subplot(122)
-    drawPitch(ax1)
+    draw_pitch(ax1)
     ax1.imshow(home_entropy_map, interpolation='nearest',
                extent=(0, PitchLocation.X_SIZE, 0, PitchLocation.Y_SIZE), vmin=0, vmax=5.5, cmap=getCmp())
-    drawPitch(ax2)
+    draw_pitch(ax2)
     img = ax2.imshow(away_entropy_map, interpolation='nearest',
                      extent=(0, PitchLocation.X_SIZE, 0, PitchLocation.Y_SIZE), vmin=0, vmax=5.5, cmap=getCmp())
     pitchFig.subplots_adjust(right=0.8)
@@ -122,7 +122,7 @@ def plot_team_occupancy_map(team_entropy_map, match_data, path_to_folder):
     pyplot.title("%s vs. %s %d:%d" % (
         match_data['home_team'], match_data['away_team'], match_data['home_score'], match_data['away_score']))
     ax = pitchFig.add_subplot(111)
-    drawPitch(ax)
+    draw_pitch(ax)
     img = ax.imshow(team_entropy_map, interpolation='nearest',
                     extent=(0, PitchLocation.X_SIZE, 0, PitchLocation.Y_SIZE), vmin=0, vmax=5.5, cmap=getCmp())
     pitchFig.colorbar(img)

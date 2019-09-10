@@ -4,5 +4,5 @@ from codes.models.stats_bomb.services.events_services.particular_events.event_se
 
 class Half(Event):
     @staticmethod
-    def isEndHalf(event):
-        return Half.getEventTypeId(event) == pe.HALF_END
+    def is_end_half(event):
+        return Half.get_event_type_id(event) == pe.HALF_END

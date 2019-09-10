@@ -13,18 +13,18 @@ class Shot(Event):
     WAYWARD = 101
 
     @staticmethod
-    def __getShotField(event):
+    def __get_shot_field(event):
         return event.shot
 
     @staticmethod
-    def isShot(event):
-        return Shot.getEventTypeId(event) == pe.SHOT
+    def is_shot(event):
+        return Shot.get_event_type_id(event) == pe.SHOT
 
     @staticmethod
-    def __isShotAndGotTypeField(event):
-        return Shot.isShot(event) and Shot.isTypeFieldIn(Shot.__getShotField(event))
+    def __is_shot_and_got_type_field(event):
+        return Shot.is_shot(event) and Shot.is_type_field_in(Shot.__get_shot_field(event))
 
     @staticmethod
-    def isShotFromSetPiece(event):
-        return Shot.__isShotAndGotTypeField(event) and \
-               Shot.getEventTypeId(Shot.__getShotField(event)) in [pe.CORNER, pe.FREE_KICK, pe.PENALTY, pe.THROW_IN]
+    def is_shot_from_set_piece(event):
+        return Shot.__is_shot_and_got_type_field(event) and \
+               Shot.get_event_type_id(Shot.__get_shot_field(event)) in [pe.CORNER, pe.FREE_KICK, pe.PENALTY, pe.THROW_IN]

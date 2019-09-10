@@ -4,66 +4,64 @@ from codes.models.stats_bomb.data_preparation_models.pitch_events import PitchEv
 
 class Event:
     @staticmethod
-    def getEventTypeId(event):
+    def get_event_type_id(event):
         return event.type.id
 
     @staticmethod
-    def isTypeFieldIn(event):
+    def is_type_field_in(event):
         return event.type is not None
 
     @staticmethod
-    def getEventOutcomeId(event, type):
+    def get_event_outcome_id(event, type):
         return event.type.outcome.id
 
     @staticmethod
-    def isSuccessfullOutcome(outcomeId):
+    def is_successfull_outcome(outcomeId):
         return outcomeId
 
     @staticmethod
-    def __getX(event):
+    def __get_x(event):
         return event["location"][0]
 
     @staticmethod
-    def __getY(event):
+    def __get_y(event):
         return event["location"][1]
 
     @staticmethod
-    def getLocation(event):
-        return [Event.__getX(event), Event.__getY(event)]
+    def get_location(event):
+        return [Event.__get_x(event), Event.__get_y(event)]
 
     @staticmethod
-    def isPlayerEvent(event):
+    def is_player_event(event):
         return pefn.PLAYER in event.keys()
-        # return hasattr(event, pefn.PLAYER) # in event.keys()
 
     @staticmethod
-    def getPlayerId(event):
+    def get_player_id(event):
         return event.player.id
 
     @staticmethod
-    def isTeamEvent(event, teamId):
-        return event.team.id == teamId
-        # return event.team.id == teamId
+    def is_team_event(event, team_id):
+        return event.team.id == team_id
 
     @staticmethod
-    def getPossesionTeam(event):
+    def get_possession_team(event):
         return event.possession_team
 
     @staticmethod
-    def getTeam(event):
+    def get_team(event):
         return event.team
 
     @staticmethod
-    def isAttackingEvent(event):
-        return Event.getPossesionTeam(event) == Event.getTeam(event) \
-               and Event.getEventTypeId(event) in pe.OFFENSIVE_EVENTS \
+    def is_attacking_event(event):
+        return Event.get_possession_team(event) == Event.get_team(event) \
+               and Event.get_event_type_id(event) in pe.OFFENSIVE_EVENTS \
                and event.play_pattern.id not in [2, 3]
 
     @staticmethod
-    def isDefendingEvent(event):
-        return Event.getPossesionTeam(event) != Event.getTeam(event) \
-               and Event.getEventTypeId(event) in pe.DEFENSIVE_EVENTS \
+    def is_defending_event(event):
+        return Event.get_possession_team(event) != Event.get_team(event) \
+               and Event.get_event_type_id(event) in pe.DEFENSIVE_EVENTS \
                and event.play_pattern.id not in [2, 3]
     @staticmethod
-    def isBallReceipt(event):
-        return Event.getEventTypeId(event) == pe.BALL_RECEIPT
+    def is_ball_receipt(event):
+        return Event.get_event_type_id(event) == pe.BALL_RECEIPT

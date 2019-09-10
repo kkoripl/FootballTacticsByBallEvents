@@ -5,19 +5,19 @@ class JsonDirectories:
     DATA_DIRECTORY = '.'
     OUTPUTS_DIRECTORY = '.'
 
-    def getSBEventsDirectory(self):
-        return os.path.join(self.getSBDataDirectory(), 'events')
+    def get_sb_events_dir(self):
+        return os.path.join(self.get_sb_data_dir(), 'events')
 
-    def getSBLineupsDirectory(self):
-        return os.path.join(self.getSBDataDirectory(), 'lineups')
+    def get_sb_lineups_dir(self):
+        return os.path.join(self.get_sb_data_dir(), 'lineups')
     
-    def getSBMatchesDirectory(self):
-        return os.path.join(self.getSBDataDirectory(), 'matches')
+    def get_sb_matches_dir(self):
+        return os.path.join(self.get_sb_data_dir(), 'matches')
     
-    def getSBCompetitionsDirectory(self):
-        return self.getSBDataDirectory()
+    def get_sb_comp_dir(self):
+        return self.get_sb_data_dir()
 
-    def getSBDataDirectory(self):
+    def get_sb_data_dir(self):
         return os.path.join(JsonDirectories.DATA_DIRECTORY, 'resources', 'data', 'stats_bomb')
     
     def create_occupancy_maps_pkl_path(self, play_segment_length):

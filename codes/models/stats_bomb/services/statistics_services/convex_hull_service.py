@@ -2,23 +2,23 @@ from scipy.spatial import ConvexHull
 
 
 class ConvexHullService:
-    def createConvexHulls(self, match):
-        self.createPlayersConvexHulls(match.home)
-        self.createPlayersConvexHulls(match.away)
+    def create_convex_hulls(self, match):
+        self.create_players_convex_hulls(match.home)
+        self.create_players_convex_hulls(match.away)
 
-    def createPlayersConvexHulls(self, team):
+    def create_players_convex_hulls(self, team):
         for player in team.lineup:
-            player.convex_hulls['attack'] = self.createConvexHull(self.getAttackLocations(player.events))
-            player.convex_hulls['defence'] = self.createConvexHull(self.getDefenceLocations(player.events))
+            player.convex_hulls['attack'] = self.create_convex_hull(self.get_attack_locations(player.events))
+            player.convex_hulls['defence'] = self.create_convex_hull(self.get_defence_locations(player.events))
 
-    def getAttackLocations(self, events):
+    def get_attack_locations(self, events):
         return [event.location for event in events['attack']]
 
-    def getDefenceLocations(self, events):
+    def get_defence_locations(self, events):
         return [event.location for event in events['defence']]
 
-    def createConvexHull(self, eventsLocations):
-        if len(eventsLocations) < 3:
+    def create_convex_hull(self, events_locations):
+        if len(events_locations) < 3:
             return None
         else:
-            return ConvexHull([location for location in eventsLocations])
+            return ConvexHull([location for location in events_locations])

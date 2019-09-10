@@ -15,12 +15,12 @@ class Interception (Event):
 
     @staticmethod
     def isBallInterception(event):
-        return Interception.getEventTypeId(event) in [pe.INTERCEPTION, pe.BALL_RECOVERY] \
-               or Pass.isPassRecoveredWell(event)
+        return Interception.get_event_type_id(event) in [pe.INTERCEPTION, pe.BALL_RECOVERY] \
+               or Pass.is_pass_recovered_well(event)
 
     def hasTeamPossesingBallChanged(self, event):
         team_posessing_now = event[pefn.POSSESSION_TEAM]
 
     @staticmethod
     def isClearance(event):
-        return Interception.getEventTypeId(event) == pe.CLEARANCE
+        return Interception.get_event_type_id(event) == pe.CLEARANCE

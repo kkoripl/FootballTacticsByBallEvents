@@ -5,5 +5,5 @@ from codes.models.stats_bomb.services.events_services.particular_events.event_se
 class Faul(Event):
 
     @staticmethod
-    def isFaul(event):
-        return Faul.getEventTypeId(event) in [pe.FAUL_WON]
+    def is_faul(event):
+        return Faul.get_event_type_id(event) in [pe.FAUL_WON]

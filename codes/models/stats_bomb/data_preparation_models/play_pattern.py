@@ -13,5 +13,5 @@ class PlayPattern:
             9: 'From Kick Off'
         }
 
-    def getPlayPatternName(self, playPatternId):
-        return self.play_pattern[playPatternId]
+    def get_play_pattern_name(self, play_pattern_id):
+        return self.play_pattern[play_pattern_id]

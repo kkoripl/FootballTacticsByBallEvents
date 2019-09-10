@@ -8,10 +8,10 @@ class SBJsonUtils:
     def __init__(self):
         json_directories = JsonDirectories()
         self.data_directories = {
-            'competition': json_directories.getSBCompetitionsDirectory(),
-            'match': json_directories.getSBMatchesDirectory(),
-            'event': json_directories.getSBEventsDirectory(),
-            'lineup': json_directories.getSBLineupsDirectory(),
+            'competition': json_directories.get_sb_comp_dir(),
+            'match': json_directories.get_sb_matches_dir(),
+            'event': json_directories.get_sb_events_dir(),
+            'lineup': json_directories.get_sb_lineups_dir(),
         }
         
     def readSBDataInTypeFromJsons(self, wantedDataType):
