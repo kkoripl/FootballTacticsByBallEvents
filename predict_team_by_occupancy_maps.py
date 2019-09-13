@@ -10,17 +10,17 @@ from sklearn.preprocessing import StandardScaler
 from codes.data_parsers.stats_bomb.json_directories import JsonDirectories
 
 
-def predict_team_by_occupancy_maps(play_segments_length, train_occurances, k):
-    maps_to_train, maps_to_test = prepare_maps(train_occurances, play_segments_length)
+def predict_team_by_occupancy_maps(play_segments_length, x_bins, y_bins, train_occurances, k):
+    maps_to_train, maps_to_test = prepare_maps(train_occurances, play_segments_length, x_bins, y_bins)
     knn = neighbors.KNeighborsClassifier(n_neighbors=k, p=2, weights = 'uniform')\
         .fit(maps_to_train['occupancy_map'].tolist(), maps_to_train['team'].tolist())
     pred = knn.predict(maps_to_test['occupancy_map'].tolist())
     return metrics.accuracy_score(maps_to_test['team'].tolist(), pred)
 
 
-def prepare_maps(train_occurances, play_segment_length):
+def prepare_maps(train_occurances, play_segment_length, x_bins, y_bins):
     json_directories = JsonDirectories()
-    maps = pd.read_pickle(json_directories.create_occupancy_maps_pkl_path(play_segment_length))
+    maps = pd.read_pickle(json_directories.create_occupancy_maps_pkl_path(play_segment_length, x_bins, y_bins))
     # maps = maps[filterDataByTeamsOccurancesMoreThan(list(maps['team']), 10)]
     maps = maps[filterEnglishWomanTeams(list(maps['team']))]
     unique_teams = getUniqueTeams(list(maps['team']))
