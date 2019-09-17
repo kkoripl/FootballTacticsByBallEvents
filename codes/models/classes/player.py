@@ -5,10 +5,11 @@ class Player:
         self.player_name = None
         self.jersey_number = None
         self.country = None
+        self.in_xi = False
         self.events = {'attack': [], 'defence': []}
-        self.convex_hulls = {'attack': None, 'defence': None}
         self.events_locations = {'attack': [], 'defence': []}
         self.avg_position = None
+        self.passes_cnt = {}
 
     @classmethod
     def from_dict(cls, dict):

@@ -23,7 +23,7 @@ class Pass(Event):
 
     @staticmethod
     def is_pass_completed(event):
-        return pefn.OUTCOME not in Pass.__get_pass_field(event).keys()
+        return not hasattr(event.pass_obj, 'outcome')
 
     @staticmethod
     def is_pass(event):
@@ -65,3 +65,7 @@ class Pass(Event):
     def is_pass_from_set_piece(event):
         return Pass.__is_pass_and_got_type_field(event) and \
                Pass.get_event_type_id(Pass.__get_pass_field(event)) in [pe.CORNER, pe.FREE_KICK, pe.PENALTY, pe.THROW_IN]
+
+    @staticmethod
+    def get_recipient_id(event):
+        return event.pass_obj.recipient.id

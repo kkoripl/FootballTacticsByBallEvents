@@ -40,6 +40,10 @@ class Event:
         return event.player.id
 
     @staticmethod
+    def get_player(event):
+        return event.player
+
+    @staticmethod
     def is_team_event(event, team_id):
         return event.team.id == team_id
 
@@ -65,3 +69,19 @@ class Event:
     @staticmethod
     def is_ball_receipt(event):
         return Event.get_event_type_id(event) == pe.BALL_RECEIPT
+
+    @staticmethod
+    def event_got_card(event):
+        return Event.get_event_type_id(event) == pe.FAUL_COMMITTED and event.foul_committed is not None and hasattr(event.foul_committed, 'card')
+
+    @staticmethod
+    def player_sent_off(event):
+        return Event.event_got_card(event) and event.foul_committed.card.name == 'Red Card'
+
+    @staticmethod
+    def got_yellow_card(event):
+        return Event.event_got_card(event) and event.foul_committed.card.name == 'Yellow Card'
+
+    @staticmethod
+    def is_substitiution(event):
+        return Event.get_event_type_id(event) == pe.SUBSTITUTION

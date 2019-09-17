@@ -73,3 +73,5 @@ class Event:
     tactics = None
     # Each shot includes an object called freeze_frame which is an array containing information  about relevant players at the time of the shot
     freeze_frame = None
+
+    foul_committed = None

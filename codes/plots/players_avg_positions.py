@@ -1,14 +1,12 @@
-import matplotlib.pyplot as plt
+def draw_players_mean_positions(ax, team, in_color='green', edge_color='black'):
 
-from codes.plots.pitch import draw_pitch
+    xs = [player.avg_position[0] for player in team.lineup if player.in_xi]
+    ys = [player.avg_position[1] for player in team.lineup if player.in_xi]
+    numbers = [player.jersey_number for player in team.lineup if player.in_xi]
 
+    for i, number in enumerate(numbers):
+        ax.text(xs[i], ys[i], number, horizontalalignment='center', verticalalignment='center', size='medium', color='white',
+                weight='semibold', zorder=2)
 
-def draw_players_mean_positions(team):
-    pitchFig = plt.figure()
-    pitchFig.set_size_inches(7, 3)
-    plt.axis('off')
-    draw_pitch(pitchFig)
-    for player in team.lineup:
-        if player.has_played_in_game():
-            plt.plot(player.avg_position[0], player.avg_position[1], 'x', color="blue")
-    plt.show()
+    ax.scatter(xs, ys, s=450, color=in_color, edgecolors=edge_color, zorder=1)
+    return ax
