@@ -18,7 +18,7 @@ class JsonDirectories:
         return self.get_sb_data_dir()
 
     def get_sb_data_dir(self):
-        return os.path.join(JsonDirectories.DATA_DIRECTORY, 'resources', 'data', 'stats_bomb')
+        return os.path.join(JsonDirectories.DATA_DIRECTORY, 'resources', 'data', 'stats_bomb', 'data')
     
     def create_occupancy_maps_pkl_path(self, play_segment_length, x_bins, y_bins):
         return os.path.join(self.create_outputs_dir_path(), "occupancy_maps_{}_{}_{}.pkl".format(str(play_segment_length), str(x_bins), str(y_bins)))

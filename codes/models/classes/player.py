@@ -10,6 +10,7 @@ class Player:
         self.events_locations = {'attack': [], 'defence': []}
         self.avg_position = None
         self.passes_cnt = {}
+        self.passes = []
 
     @classmethod
     def from_dict(cls, dict):

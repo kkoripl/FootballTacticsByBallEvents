@@ -13,16 +13,6 @@ class SBJsonUtils:
             'event': json_directories.get_sb_events_dir(),
             'lineup': json_directories.get_sb_lineups_dir(),
         }
-        
-    def read_sb_data_in_type_from_jsons(self, data_type):
-        data_directory = self.data_directories.get(data_type)
-        data = []
-        for filename in os.listdir(data_directory):
-            if self.is_json(filename):
-                file_location = os.path.join(data_directory, filename)
-                with open(file_location, encoding='utf-8-sig') as json_file:
-                    data.extend(self.load_data_from_json(filename, json_file, data_type))
-        return data
 
     def read_match_events_from_jsons(self, match_id):
         file_name = self.build_file_name(match_id)
@@ -33,13 +23,18 @@ class SBJsonUtils:
         return data
 
     def get_all_matches(self):
-        data = []
+        file_paths = []
         data_directory = self.data_directories.get('match')
-        for file_name in os.listdir(data_directory):
-            if self.is_json(file_name):
-                file_location = os.path.join(data_directory, file_name)
-                with open(file_location, encoding='utf-8-sig') as json_file:
-                    data.extend(self.load_data_from_json(file_name, json_file, 'match'))
+        for root, dirs, files in os.walk(data_directory):
+            for file in files:
+                if self.is_json(file):
+                    file_paths.append(os.path.join(root, file))
+        data = []
+        for file_path in file_paths:
+            if self.is_json(file_path):
+                # file_location = os.path.join(data_directory, file_name)
+                with open(file_path, encoding='utf-8-sig') as json_file:
+                    data.extend(self.load_data_from_json(file_path, json_file, 'match'))
         return data
 
     def read_match_lineup_from_jsons(self, match_id, team_id):

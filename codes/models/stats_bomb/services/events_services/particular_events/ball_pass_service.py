@@ -69,3 +69,11 @@ class Pass(Event):
     @staticmethod
     def get_recipient_id(event):
         return event.pass_obj.recipient.id
+
+    @staticmethod
+    def get_x_end_location(event):
+        return event.pass_obj.end_location[0]
+
+    @staticmethod
+    def get_y_end_location(event):
+        return event.pass_obj.end_location[1]

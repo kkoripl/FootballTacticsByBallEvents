@@ -20,16 +20,16 @@ class Event:
         return outcomeId
 
     @staticmethod
-    def __get_x(event):
-        return event["location"][0]
+    def get_x(event):
+        return event.location[0]
 
     @staticmethod
-    def __get_y(event):
-        return event["location"][1]
+    def get_y(event):
+        return event.location[1]
 
     @staticmethod
     def get_location(event):
-        return [Event.__get_x(event), Event.__get_y(event)]
+        return [Event.get_x(event), Event.get_y(event)]
 
     @staticmethod
     def is_player_event(event):
